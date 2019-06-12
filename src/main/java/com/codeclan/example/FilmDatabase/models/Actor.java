@@ -1,13 +1,37 @@
 package com.codeclan.example.FilmDatabase.models;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "actors")
 public class Actor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
+
+    @Column
     private int salary;
+
+    @ManyToMany
+    @JoinTable(
+            name = "actors_films",
+            joinColumns = { @JoinColumn(
+                    name = "actor_id",
+                    nullable = false,
+                    updatable = false)
+            },
+            inverseJoinColumns = { @JoinColumn(
+                    name = "film_id",
+                    nullable = false,
+                    updatable = false)
+            }
+    )
     private List<Film> films;
 
     public Actor(String name, int salary) {
